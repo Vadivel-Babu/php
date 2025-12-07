@@ -1,5 +1,6 @@
 <?php
 include "db.php";
+session_start();
 
 $error ='';
 
@@ -12,19 +13,17 @@ if($_SERVER["REQUEST_METHOD"] == 'POST'){
      if(mysqli_num_rows($result) == 1){
       $user = mysqli_fetch_assoc($result);
       if(password_verify($password,$user['password'])){
-        echo 'ok';
+        $_SESSION['logged_in'] = true;
+        $_SESSION['name'] = $user['name'];
+        $_SESSION['userId'] = $user['id'];
+        header("Location:index.php");
+        exit;
+      } else{
+        $error = "Invalid Password";
       }
      }else {
       $error = "user not found";
-      // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-      //  $sql = "INSERT INTO users (name, mail, password) values ('$name','$mail','$hashedPassword')";
-      //  if($con->query($sql)){
-      //   header("Location:login.php");
-      //   $error = '';
-      //   exit;
-      // } else{
-      //   $error = 'Somthing went wrong';
-      // }
+  
     }
   
 }

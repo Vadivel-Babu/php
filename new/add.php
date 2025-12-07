@@ -1,13 +1,14 @@
 <?php 
 
 include 'db.php';
+session_start();
 
 $error = '';
-
+$userId = $_SESSION['userId'];
  if($_SERVER["REQUEST_METHOD"] == "POST"){
   $name = $_POST["name"];
   if(!empty($name)){
-    $sql = "INSERT INTO todos (text) values ('$name')";
+    $sql = "INSERT INTO todos (text, userId) values ('$name','$userId')";
     if($con->query($sql)){
      
        header("Location:index.php");

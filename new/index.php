@@ -1,14 +1,15 @@
 <?php
-session_start();
-$_SESSION['name'] = 'vadi'; 
  include 'db.php';
+ session_start(); 
 
-
-if($_SESSION['name'] !== 'vadi'){
+$userId = $_SESSION['userId'];
+$name = $_SESSION['name'];
+if(!$_SESSION['logged_in']){
   header("Location:register.php");
+  exit;
 }
 
- $sql = "SELECT * FROM todos";
+ $sql = "SELECT * FROM todos WHERE userId='$userId'";
  $res = $con->query($sql);  
 ?>
 <!DOCTYPE html>
@@ -26,7 +27,7 @@ if($_SESSION['name'] !== 'vadi'){
   <nav class="navbar bg-body-tertiary">
     <div class="container-sm d-flex justify-content-between">
       <a class="navbar-brand" href="./index.php">Todo</a>
-      <a href="./index.php" class="btn btn-dark" role="button">logout</a>
+      <a href="./logout.php" class="btn btn-dark" role="button">logout</a>
     </div>
   </nav>
   <div class="container-sm mt-1">
@@ -34,7 +35,7 @@ if($_SESSION['name'] !== 'vadi'){
   </div>
   <div class="container-sm">
     <div class="d-flex justify-content-center align-items-center gap-3 my-5 p-1">
-      <h1>Welcome name</h1>
+      <h1>Welcome <?= $name ?></h1>
       <a href="./add.php" class="btn btn-secondary" role="button">Add Todo</a>
     </div>
 
