@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todo</title>
+  </head>
+  <body>
+    <h1>hello</h1>
+    <form action="">
+      <input type="text" placeholder="text" value="" />
+      <button>submit</button>
+      <button style="display: none" class="update">update</button>
+    </form>
+    <ul></ul>
+    <script>
+      const btn = document.querySelector("button");
+      const updateBtn = document.querySelector(".update");
+      const inp = document.querySelector("input");
+      const ul = document.querySelector("ul");
+
+      let tasks = [];
+      let newTask = {};
+
+      async function addTask(task) {
+        try {
+          const res = await fetch("./api.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              task,
+            }),
+          });
+          const data = await res.json();
+          getTask();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      function openEditModel(id, text) {
+        newTask.id = id;
+        newTask.text = text;
+        btn.style.display = "none";
+        updateBtn.style.display = "inline-block";
+        inp.value = text;
+      }
+      async function editTask(id) {
+        try {
+          let newTaskval = inp.value;
+          const res = await fetch("./api.php", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id,
+              task: newTaskval,
+            }),
+          });
+
+          const result = await res.json();
+          btn.style.display = "inline-block";
+          updateBtn.style.display = "none";
+          inp.value = "";
+
+          getTask();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      async function updateUi() {
+        ul.innerHTML = "";
+        tasks.forEach((el) => {
+          ul.innerHTML += `<li id=${el.id}>${el.text} <button onclick="deleteTask(${el.id})" >delete</button><button onclick="openEditModel(${el.id},'${el.text}')" >Edit</button> </li>`;
+        });
+      }
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        addTask(inp.value);
+        inp.value = "";
+      });
+
+      updateBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log(newTask);
+        editTask(newTask.id, newTask.text);
+      });
+
+      async function deleteTask(id) {
+        try {
+          const res = await fetch("./api.php", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id,
+            }),
+          });
+          getTask();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      async function getTask() {
+        try {
+          const res = await fetch("./api.php");
+          const data = await res.json();
+          tasks = data?.data;
+          updateUi();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getTask();
+    </script>
+  </body>
+</html>
