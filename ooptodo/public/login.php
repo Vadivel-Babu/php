@@ -6,7 +6,7 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $auth = new Auth();
     if ($auth->login($_POST['email'], $_POST['password'])) {
-        header("Location: ../views/admin-dashboard.php");
+        header("Location: ../views/dashboard.php");
         exit;
     } else {
         $error = "Invalid login";

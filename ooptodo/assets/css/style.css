@@ -5,3 +5,22 @@
   padding: 20px;
   border-radius: 5px;
 }
+.dashboard {
+  display: flex;
+}
+.dashboard__sidebar {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  width: max-content;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.dashboard__sidebar > a {
+  text-decoration: none;
+  color: white;
+}
+.dashboard__content {
+  padding: 20px;
+}
