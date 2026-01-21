@@ -1,20 +1,22 @@
  <?php 
  include_once __DIR__ . "/../config/config.php";
  include_once __DIR__ . "/partials/header.php";
+ include_once __DIR__ . "/../core/User.php";
 ?>
 
 
  <div class="dashboard">
    <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
    <div class="dashboard__content ">
-     <h1> user</h1>
-     <table class="table">
+     <h1 class="text-center"> User</h1>
+     <table class="table container">
        <thead>
          <tr>
-           <th scope="col">#</th>
-           <th scope="col">First</th>
-           <th scope="col">Last</th>
-           <th scope="col">Handle</th>
+           <th scope="col">No</th>
+           <th scope="col">Name</th>
+           <th scope="col">Email</th>
+           <th scope="col">Active</th>
+           <th scope="col">Action</th>
          </tr>
        </thead>
        <tbody>
@@ -22,19 +24,11 @@
            <th scope="row">1</th>
            <td>Mark</td>
            <td>Otto</td>
-           <td>@mdo</td>
-         </tr>
-         <tr>
-           <th scope="row">2</th>
-           <td>Jacob</td>
-           <td>Thornton</td>
-           <td>@fat</td>
-         </tr>
-         <tr>
-           <th scope="row">3</th>
-           <td>John</td>
-           <td>Doe</td>
-           <td>@social</td>
+           <td><span class="badge text-bg-success">active</span></td>
+           <td>
+             <button type="button" class="btn btn-danger">Delete</button>
+             <a role="button" class="btn btn-warning">Edit</a>
+           </td>
          </tr>
        </tbody>
      </table>
