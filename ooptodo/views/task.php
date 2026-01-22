@@ -29,10 +29,12 @@
           <th scope="row"><?= $no ?></th>
           <td><?= $task['title'] ?></td>
           <td><?= $task['description'] ?></td>
-          <td><span class="badge text-bg-warning"><?= $task['status'] ?></span></td>
+          <td><span
+              class="badge <?= $task['status'] === 'completed' ? "text-bg-success" : "text-bg-warning" ?>"><?= $task['status'] ?></span>
+          </td>
           <td>
             <a href="edittask.php?id=<?= $task['id'] ?>" class="btn btn-dark" role="button">Edit</a>
-            <button type="button" class="btn btn-danger delete-btn" data-id="<?= $user['id'] ?>">Delete</button>
+            <button type="button" class="btn btn-danger delete-task-btn" data-id="<?= $task['id'] ?>">Delete</button>
           </td>
         </tr>
         <?php $no++; ?>

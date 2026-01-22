@@ -41,7 +41,7 @@
    <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
    <div class="dashboard__content ">
      <h1 class="text-center">Create Task</h1>
-     <div class="container form__max-width">
+     <div class="container form__max-width bg-white">
        <?php if($error): ?>
        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
          <?= $error ?>
@@ -67,7 +67,7 @@
              <?php endforeach; ?>
            </select>
          </div>
-         <button type="submit" class="btn btn-success">Create Task</button>
+         <button type="submit" class="btn btn-dark">Create Task</button>
        </form>
      </div>
    </div>

@@ -42,16 +42,17 @@ class Task
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateTask($title,$description,$assigned,$status)
+    public function updateTask($title,$description,$assigned,$status,$id)
     {
         $stmt = $this->db->prepare(
-            "UPDATE tasks SET status = ? WHERE id = ?"
+            "UPDATE tasks SET title = :title,description = :description, assigned_to = :assigned, status = :status WHERE id = :id"
         );
+        $stmt->execute([":title" => $title,":description" => $description,":assigned"=>$assigned,":status"=>$status,":id" => $id]);
         
         return true;
     }
 
-    public function delete($taskId)
+    public function deleteTask($taskId)
     {
         $stmt = $this->db->prepare(
             "DELETE FROM tasks WHERE id = ?"

@@ -7,6 +7,6 @@
  <div class="dashboard">
    <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
    <div class="dashboard__content ">
-     <h1><?= $_SESSION['role']; ?></h1>
+     <h1><?= $_SESSION['user_name']; ?></h1>
    </div>
  </div>

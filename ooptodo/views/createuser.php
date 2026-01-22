@@ -27,7 +27,7 @@
             header("Location: user.php");
             exit;
         } else {
-            $error = "User already exists";
+            $error = "User email already exists";
         }
 
     }
@@ -41,7 +41,7 @@
 
      <h1 class="text-center">Create User</h1>
 
-     <div class="container form__max-width">
+     <div class="container form__max-width bg-white">
        <?php if($error): ?>
        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
          <?= $error ?>
@@ -53,7 +53,7 @@
          <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Name</label>
-           <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="title">
+           <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="name">
          </div>
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Email</label>
@@ -66,7 +66,7 @@
              <option value="user">user</option>
            </select>
          </div>
-         <button type="submit" class="btn btn-success ">Create User</button>
+         <button type="submit" class="btn btn-dark ">Create User</button>
        </form>
      </div>
    </div>
