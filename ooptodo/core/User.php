@@ -32,9 +32,17 @@ class User
   {
     $stmt = $this->db->prepare( "SELECT * FROM users WHERE role = :role");
     $stmt->execute([':role' => 'user']);
-    $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $user;
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $users;
 
+  }
+
+  public function getUser($id)
+  {
+    $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute([":id" => $id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $user;
   }
 
   public function deleteUser($id)

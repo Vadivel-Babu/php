@@ -2,8 +2,8 @@
  include_once __DIR__ . "/../config/config.php";
  include_once __DIR__ . "/partials/header.php";
  include_once __DIR__ . "/../core/User.php";
- $user = new USER();
- $alluser = $user->getAllUsers();
+ $user = new User();
+ $allusers = $user->getAllUsers();
 
 ?>
 
@@ -24,7 +24,7 @@
        </thead>
        <tbody>
          <?php $no = 1; ?>
-         <?php foreach($alluser as $user): ?>
+         <?php foreach($allusers as $user): ?>
          <tr>
            <th scope="row"><?= $no ?></th>
            <td><?= $user['name'] ?></td>

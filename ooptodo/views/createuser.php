@@ -3,11 +3,11 @@
  include_once __DIR__ . "/partials/header.php";
  include_once __DIR__ . "/../core/User.php";
  $error = '';
- if($_SERVER["REQUEST_METHOD"] == 'POST'){
-   if($_SESSION['role'] !== 'admin'){
-   header("Location: dashboard.php");
-   exit;
-  }
+ if($_SESSION['role'] !== 'admin'){
+ header("Location: dashboard.php");
+ exit;
+}
+ if($_SERVER["REQUEST_METHOD"] === 'POST'){
     
     if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
         die('Invalid CSRF token');
@@ -60,10 +60,13 @@
            <input type="email" name="email" class="form-control" id="exampleFormControlInput1"
              placeholder="user@mail.com">
          </div>
-         <select name="role" class="form-select" aria-label="Default select example">
-           <option value="user">user</option>
-         </select>
-         <button type="submit" class="btn btn-success mt-3">Create User</button>
+         <div class="mb-3">
+           <label for="exampleFormControlInput1" class="form-label">Role</label>
+           <select name="role" class="form-select" aria-label="Default select example">
+             <option value="user">user</option>
+           </select>
+         </div>
+         <button type="submit" class="btn btn-success ">Create User</button>
        </form>
      </div>
    </div>

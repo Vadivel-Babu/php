@@ -4,21 +4,27 @@
  include_once __DIR__ . "/../core/Task.php";
  include_once __DIR__ . "/../core/User.php";
  $error = '';
+ $id = 0;
+ $currenttask= '';
  if($_SESSION['role'] !== 'admin'){
  header("Location: dashboard.php");
  exit;
 }
+
+$task = new Task();
+if(isset($_GET['id'])){
+   $id = $_GET['id'];
+   $currenttask = $task->getTask($id);
+}
  $users = new User();
  $allUsers = $users->getAllUsers();
+ $currentuser = $users->getUser($currenttask["assigned_to"]);
  
  if($_SERVER["REQUEST_METHOD"] === 'POST'){
     
     if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
         die('Invalid CSRF token');
     }
- 
-    $task = new Task();
-   
 
     $title  = trim($_POST['title'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -28,19 +34,20 @@
     if ($title === '' || $description === '') {
         $error = 'Please enter all fields';
     } else {
-        if ($task->createTask($title,$description,$assigned)) {
+        if ($task->updateTask($title,$description,$assigned,$status)) {
             header("Location: task.php");
             exit;
         }
     }
  }
+
 ?>
 
 
  <div class="dashboard">
    <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
    <div class="dashboard__content ">
-     <h1 class="text-center">Create Task</h1>
+     <h1 class="text-center">Edit Task</h1>
      <div class="container form__max-width">
        <?php if($error): ?>
        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
@@ -52,22 +59,34 @@
          <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Title</label>
-           <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="title">
+           <input type="text" name="title" value="<?= $currenttask["title"] ?>" class="form-control"
+             id="exampleFormControlInput1" placeholder="title">
          </div>
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Description</label>
-           <input type="text" name="description" class="form-control" id="exampleFormControlInput1"
-             placeholder="description ...">
+           <input type="text" name="description" value="<?= $currenttask["description"] ?>" class="form-control"
+             id="exampleFormControlInput1" placeholder="description ...">
+         </div>
+         <div class="mb-3">
+           <label for="exampleFormControlInput1" class="form-label">Status</label>
+           <select name="assigned" class="form-select" aria-label="Default select example">
+             <option value="<?= $currenttask['status'] ?>" selected><?= $currenttask['status'] ?></option>
+             <option value="pending">pending</option>
+             <option value="completed">completed</option>
+           </select>
          </div>
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Assigned</label>
            <select name="assigned" class="form-select" aria-label="Default select example">
+             <option value="<?= $currentuser['id'] ?>" selected><?= $currentuser['name'] ?></option>
              <?php foreach($allUsers as $user): ?>
+             <?php if($user["id"] !== $currentuser['id']): ?>
              <option value="<?= $user['id'] ?>"><?= $user['name'] ?></option>
+             <?php endif; ?>
              <?php endforeach; ?>
            </select>
          </div>
-         <button type="submit" class="btn btn-success">Create Task</button>
+         <button type="submit" class="btn btn-warning">Update Task</button>
        </form>
      </div>
    </div>

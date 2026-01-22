@@ -17,6 +17,13 @@ class Task
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function createTask($title,$description,$assigned)
+    {
+      $stmt = $this->db->prepare("INSERT tasks(title,description,assigned_to) values (:title,:description,:assigned)");
+      $stmt->execute([":title" => $title,":description" => $description,":assigned" => $assigned]);
+      return true;
+    }
+
     public function getByUser($userId)
     {
         $stmt = $this->db->prepare(
@@ -26,12 +33,22 @@ class Task
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updateStatus($taskId, $status)
+    public function getTask($taskId)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM tasks WHERE id = ?"
+        );
+        $stmt->execute([$taskId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateTask($title,$description,$assigned,$status)
     {
         $stmt = $this->db->prepare(
             "UPDATE tasks SET status = ? WHERE id = ?"
         );
-        return $stmt->execute([$status, $taskId]);
+        
+        return true;
     }
 
     public function delete($taskId)
