@@ -27,5 +27,23 @@ class User
       $stmt2->execute([':name' => $name,':email'=>$email,':password'=>$password,':role' => $role]);
       return true;
   }
+
+  public function getAllUsers()
+  {
+    $stmt = $this->db->prepare( "SELECT * FROM users WHERE role = :role");
+    $stmt->execute([':role' => 'user']);
+    $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $user;
+
+  }
+
+  public function deleteUser($id)
+  {
+    $stmt = $this->db->prepare(
+        "DELETE FROM users WHERE id = ?"
+    );
+
+    return $stmt->execute([$id]);
+  }
   
 }

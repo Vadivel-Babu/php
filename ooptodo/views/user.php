@@ -2,6 +2,9 @@
  include_once __DIR__ . "/../config/config.php";
  include_once __DIR__ . "/partials/header.php";
  include_once __DIR__ . "/../core/User.php";
+ $user = new USER();
+ $alluser = $user->getAllUsers();
+
 ?>
 
 
@@ -20,16 +23,20 @@
          </tr>
        </thead>
        <tbody>
+         <?php $no = 1; ?>
+         <?php foreach($alluser as $user): ?>
          <tr>
-           <th scope="row">1</th>
-           <td>Mark</td>
-           <td>Otto</td>
+           <th scope="row"><?= $no ?></th>
+           <td><?= $user['name'] ?></td>
+           <td><?= $user['email'] ?></td>
            <td><span class="badge text-bg-success">active</span></td>
            <td>
-             <button type="button" class="btn btn-danger">Delete</button>
-             <a role="button" class="btn btn-warning">Edit</a>
+             <button type="button" class="btn btn-danger delete-btn" data-id="<?= $user['id'] ?>">Delete</button>
            </td>
          </tr>
+         <?php $no++; ?>
+         <?php endforeach; ?>
+
        </tbody>
      </table>
    </div>

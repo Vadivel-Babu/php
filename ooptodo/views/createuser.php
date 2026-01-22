@@ -4,20 +4,33 @@
  include_once __DIR__ . "/../core/User.php";
  $error = '';
  if($_SERVER["REQUEST_METHOD"] == 'POST'){
-  $user = new User();
-  $name = $_POST['name'];
-  $email = $_POST['email'];
-  $role = $_POST['role'];
-  echo $name . " " .$email . " " . $role;
-  if($name == "" || $email == ""){
-    $error = 'Please enter all field';
-    return;
+   if($_SESSION['role'] !== 'admin'){
+   header("Location: dashboard.php");
+   exit;
   }
-  if($user->createUser($_POST['name'],$_POST['email'],$_POST['role'])){
-    header("Location: user.php");
-    exit;
-  }
-  $error = "user already exists";
+    
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die('Invalid CSRF token');
+    }
+ 
+    $user = new User();
+
+    $name  = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $role  = trim($_POST['role'] ?? '');
+
+    // Validation
+    if ($name === '' || $email === '') {
+        $error = 'Please enter all fields';
+    } else {
+        if ($user->createUser($name, $email, $role)) {
+            header("Location: user.php");
+            exit;
+        } else {
+            $error = "User already exists";
+        }
+
+    }
  }
 ?>
 
@@ -37,6 +50,7 @@
        <?php endif; ?>
 
        <form method="post">
+         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Name</label>
            <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="title">
@@ -54,3 +68,5 @@
      </div>
    </div>
  </div>
+
+ <?php include_once __DIR__ . "/partials/footer.php"; ?>

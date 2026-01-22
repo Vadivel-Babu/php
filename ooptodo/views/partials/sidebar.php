@@ -2,12 +2,12 @@
   <div class="dashboard__sidebar--top">
     <h2>TM</h2>
     <a href="dashboard.php">Dashboard</a>
+    <a href="task.php">Task</a>
     <?php if ($_SESSION['role'] === 'admin'): ?>
     <a href="user.php">Users</a>
-    <?php endif; ?>
-    <a href="task.php">Task</a>
     <a href="createtask.php">Create Task</a>
     <a href="createuser.php">Create User</a>
+    <?php endif; ?>
   </div>
 
   <div class="dashboard__sidebar--bottom">

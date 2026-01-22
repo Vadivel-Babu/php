@@ -1,3 +1,12 @@
+<?php
+ $url = $_SERVER['PHP_SELF'];
+ $arr = explode("/",$url);
+ $length = count($arr);
+$str = explode('.',$arr[$length - 1]);
+$title = $str[0];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +18,12 @@
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
-  <title>Task Manager</title>
+  <script>
+  const BASE_URL = "<?= BASE_URL ?>";
+  const CSRF_TOKEN = "<?= $_SESSION['csrf_token'] ?>";
+  </script>
+  <script src="<?= BASE_URL ?>assets/js/script.js" defer></script>
+  <title><?= $title ?></title>
 </head>
 
 <body>
